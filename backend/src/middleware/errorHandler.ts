@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { ZodError } from 'zod';
+import { ZodError, ZodIssue } from "zod";
 import { MongoError } from 'mongodb';
 import mongoose from 'mongoose';
 
@@ -85,14 +85,16 @@ export const errorHandler = (
   }
 
   // Zod validation error
-  if (err instanceof ZodError) {
-    const errors = err.errors.map(e => ({
-      field: e.path.join('.'),
-      message: e.message
-    }));
-    const message = 'Validation failed';
-    error = new ValidationError(message, errors);
-  }
+
+if (err instanceof ZodError) {
+  const errors = err.issues.map((issue: ZodIssue) => ({
+    field: issue.path.join('.'),
+    message: issue.message,
+  }));
+
+  const message = 'Validation failed';
+  error = new ValidationError(message, errors);
+}
 
   // JWT errors
   if (err.name === 'JsonWebTokenError') {
