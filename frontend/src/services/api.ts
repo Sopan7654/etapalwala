@@ -10,7 +10,7 @@ import type {
     BulkMessageRequest,
     FileInfo
 } from '../types';
-import { handleApiError, handleFileUploadError, handleWhatsAppError, withRetry, createErrorContext, AppError } from '../utils/errorHandler';
+import { handleApiError, handleFileUploadError, handleWhatsAppError, createErrorContext, AppError } from '../utils/errorHandler';
 import { withRateLimit, messageRateLimiter, fileUploadRateLimiter, retryWithBackoff } from '../utils/rateLimiter';
 
 const API_BASE_URL = 'http://localhost:4000';
